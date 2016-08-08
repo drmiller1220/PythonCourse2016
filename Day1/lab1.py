@@ -3,6 +3,8 @@ def binarify(num):
   if num<=0: return '0'
   digits = []
   return ''.join(digits)
+  
+  ngkjvnfjd
 
 def int_to_base(num, base):
   """convert positive integer to a string in any base"""
