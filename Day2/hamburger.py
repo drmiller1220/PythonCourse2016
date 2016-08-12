@@ -23,7 +23,7 @@ class Burger():
         elif self.doneness == "raw": return "yuck!"
         else: return "meh"
         
-    def cook(self):
+    def cooking_time(self):
         time_for_doneness = 0
         if self.doneness == "raw": time_for_doneness = 0
         elif self.doneness == "rare": time_for_doneness =5
