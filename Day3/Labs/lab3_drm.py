@@ -14,7 +14,7 @@ def shout(txt):
 		if txt.isupper():
 			raise CustomException(1)
 		else:
-			print txt.upper()
+			return txt.upper()
 	except AttributeError:
 		raise AttributeError, "Must enter a text string!"
 	except CustomException as e:
@@ -22,7 +22,7 @@ def shout(txt):
 
 def reverse(txt):
 	try:
-		print txt[::-1]
+		return txt[::-1]
 	except AttributeError:
 		raise AttributeError, "Must enter a text string!"
 
@@ -30,7 +30,7 @@ def reversewords(txt):
 	try:
 		words_list = txt.split()
 		reverse_list = words_list[::-1]
-		print ' '.join(reverse_list)
+		return ' '.join(reverse_list)
 	except AttributeError:
 		raise AttributeError, "Must enter a text string!"
 
@@ -41,7 +41,7 @@ def reversewordletters(txt):
 		reverse_list = []
 		for i in words_list:
 			reverse_list.append(i[::-1])
-		print ' '.join(reverse_list)
+		return ' '.join(reverse_list)
 	except AttributeError:
 		raise AttributeError, "Must enter a text string!"
 
@@ -70,7 +70,7 @@ def piglatin(txt):
 					pig_latin.append(j[1:]+'ay'+j[0])
 				else:
 					pig_latin.append(j + 'ay')
-		print ' '.join(pig_latin)
+		return ' '.join(pig_latin)
 	except AttributeError:
 		raise AttributeError, "Must enter a text string!"
 
