@@ -8,18 +8,29 @@ def ordinalize(i):
 			if i==3:
 				return "3rd"
 			if i >3 and i<10:
-				return "%d th" % i
-			if i>11 and i<20:
-				return "%d th" % i
+				return "%dth" % i
+			if i>10 and i<20:
+				return "%dth" % i
 			if i>20 and i % 10 ==1:
-				return "%d st" % i
+				return "%dst" % i
 			if i>20 and i % 10 ==2:
-				return "%d nd" % i
+				return "%dnd" % i
 			if i>20 and i % 10 ==3:
-				return "%d rd" % i
-			print "Input has been successfully ordinalized."
+				return "%drd" % i
+			if i>20 and i<99:
+				return "%dth" % i
+			if i > 100 and int(str(i)[-2:]) / 10==1:
+				return "%dth" % i
+			if i > 100 and int(str(i)[-2:]) % 10==1:
+				return "%dst" % i
+			if i > 100 and int(str(i)[-2:]) % 10==2:
+				return "%dnd" % i
+			if i > 100 and int(str(i)[-2:]) % 10==3:
+				return "%drd" % i
+			else:
+				return "%dth" %i
 	except TypeError:
-		print "Input must be an integer."
+		print "Must enter an integer!"
 	except:
 		print "Default error detected."
 	else:

@@ -19,14 +19,16 @@ def ordinalize(i):
 				return "%drd" % i
 			if i>20 and i<99:
 				return "%dth" % i
+			if i > 100 and int(str(i)[-2:]) / 10==1:
+				return "%dth" % i
 			if i > 100 and int(str(i)[-2:]) % 10==1:
 				return "%dst" % i
 			if i > 100 and int(str(i)[-2:]) % 10==2:
 				return "%dnd" % i
 			if i > 100 and int(str(i)[-2:]) % 10==3:
 				return "%drd" % i
-		else:
-				return "%dth" % i
+			else:
+				return "%dth" %i
 	except TypeError:
 		print "Must enter an integer!"
 	except:

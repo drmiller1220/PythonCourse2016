@@ -38,7 +38,7 @@ class Portfolio(object):
     def sellStock(self, num_shares, stock):
 		if isinstance(num_shares, int):
 			if self.stocks[stock.symbol]>=num_shares:
-				self.cash += random.uniform(0.5,1.5)*num_shares
+				self.cash += random.uniform(0.5,1.5)*num_shares*stock.price
 				if stock.symbol in self.stocks.keys():
 					self.stocks[stock.symbol]-= num_shares
 					if self.stocks[stock.symbol]==0:

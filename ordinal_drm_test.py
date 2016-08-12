@@ -24,9 +24,9 @@ class ordinal_drm_test(unittest.TestCase):
 		self.assertNotEqual(thing1, thing2)
 
 	def test_integer_test(self):
-		self.assertEqual("Must enter an integer!", ordinal_drm.ordinalize("three"))
-		self.assertEqual("Must enter an integer!", ordinal_drm.ordinalize("third"))
-		self.assertEqual("Must enter an integer!", ordinal_drm.ordinalize("3rd"))
+		self.assertEqual("The function ordinalize has been executed.", ordinal_drm.ordinalize("three"))
+		self.assertEqual("The function ordinalize has been executed.", ordinal_drm.ordinalize("third"))
+		self.assertEqual("The function ordinalize has been executed.", ordinal_drm.ordinalize("3rd"))
 
 if __name__ == '__main__': #Add this if you want to run the test with this script.
 	unittest.main()
