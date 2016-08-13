@@ -67,8 +67,6 @@ class Stock(Asset):
 					portfolio.stocks[self.symbol]-= num_shares
 					if portfolio.stocks[self.symbol]==0:
 						portfolio.stocks.pop(self.symbol, None)
-				else:
-					raise NotImplementedError("No shares of %s available to sell" %self.symbol)
 			else: raise NotImplementedError("Insufficient shares of %s to sell" %self.symbol)
 		else: raise NotImplementedError("Stock shares may only be transacted in whole values")
 	
@@ -107,9 +105,13 @@ class MutualFund(Asset):
 					portfolio.mut_funds[self.symbol]-= num_shares
 					if portfolio.mut_funds[self.symbol]==0:
 						portfolio.mut_funds.pop(self.symbol, None)
-				else:
-					raise NotImplementedError("No shares of %s available to sell" %self.symbol)
 		else: raise NotImplementedError("Insufficient shares of %s to sell" %self.symbol)
+
+### If we wanted to enable the script to account for bonds, we could create a new
+### subclass of Assets, perhaps more similar to Stocks than Mutual Funds, where we
+### would likely add an input to account for the bond yield.  Then, we would tweak
+### the buy and sell functions for bonds to accordingly, given conditions we impose
+### on bonds.
 		
 ### Testing the script
 
@@ -135,3 +137,12 @@ portfolio.withdrawCash(500)
 print(portfolio)
 
 portfolio.history()
+
+### The following generate NotImplementedErrors built into the script:
+### portfolio.withdrawCash(50000000000000000)
+### portfolio.buyStock(1.3, s)
+### portfolio.buyStock(999999, s)
+### portfolio.sellStock(7778, s)
+### portfolio.sellStock(1.2, t)
+### portfolio.buyMutualFund(193944,mf1)
+### portfolio.sellMutualFund(193944,mf2)
