@@ -1,11 +1,18 @@
 import random
 
+### Create "Portfolio" class that will manage transactions.
+### Initialization requires no user input, and creates attributes
+### with which to track available cash, a dictionary of stocks and
+### mutual funds held, and a list of actions taken.
+
 class Portfolio(object):
     def __init__(self):
 		self.cash = 0
 		self.stocks = {}
 		self.mut_funds = {}
 		self.trans_history = []
+	
+	### Functions to add and withdraw cash
 	
     def addCash(self, new_cash):
 		self.cash += new_cash
@@ -17,6 +24,10 @@ class Portfolio(object):
 			self.trans_history.append("Withdrew $%.2f from the portfolio." %new_cash)
 		else:
 			raise NotImplementedError("Not enough cash in portfolio to execute withdrawal")
+	
+	### Functions with which to buy and sell stocks and mutual funds.
+	### Will draw on functions within the classes for stocks and
+	### mutual funds.
 	
     def buyStock(self, num_shares, stock):
 		return stock.buy(self, num_shares)
@@ -30,6 +41,9 @@ class Portfolio(object):
     def sellMutualFund(self, num_shares, mf):
 		return mf.sell(self, num_shares)
 	
+	### Specifies what will be displayed when an object of class Portfolio
+	### is printed.
+	
     def __str__(self):
         output = ''
         output += 'Cash:\t$%.2f' % self.cash
@@ -38,13 +52,18 @@ class Portfolio(object):
         for mf_in in self.mut_funds.keys():
             output += '\nMutual Fund %s:\t%s \n' % (mf_in, str(self.mut_funds[mf_in]))
         return output
-
+	
+	### Function which will print the history of all actions taken within a portfolio.
+	
     def history(self):
 		indexeditems = []
 		for index in self.trans_history:
 			indexeditems.append(str((index)))
 		print '\n'.join(indexeditems)
 
+### Creates a class Asset which will enable more specific the creation
+### of subclasses which will pertain to particular types of assets.		
+		
 class Asset(object):
 	def __init__(self, price, symbol):
 		self.symbol = symbol
@@ -55,6 +74,10 @@ class Asset(object):
 		
 	def sell(self):
 		raise NotImplementedError("Subclass must implement abstract method")
+
+### Creates a subclass of Asset, Stock, which inherits the basic attributes
+### of Asset, and specifies how buying and selling is executed for objects
+### of the subclass.
 		
 class Stock(Asset):
     def sell(self, portfolio, num_shares):
@@ -62,7 +85,7 @@ class Stock(Asset):
 			if portfolio.stocks[self.symbol]>=num_shares:
 				sell_price = random.uniform(0.5,1.5)*self.price
 				portfolio.cash += sell_price*num_shares
-				portfolio.trans_history.append("Sold %d shares of %s for $%.2f ($%.2f per share)." %(num_shares, self.symbol, sell_price*num_shares, sell_price))
+				portfolio.trans_history.append("Sold %d shares of %s for $%.2f." %(num_shares, self.symbol, sell_price*num_shares))
 				if self.symbol in portfolio.stocks.keys():
 					portfolio.stocks[self.symbol]-= num_shares
 					if portfolio.stocks[self.symbol]==0:
@@ -81,6 +104,10 @@ class Stock(Asset):
 					portfolio.stocks[self.symbol] = num_shares
 			else: raise NotImplementedError("Insufficient funds to complete purchase")
 		else: raise NotImplementedError("Stock shares may only be transacted in whole values")
+
+### Creates a subclass of Asset, MutualFund, which inherits the basic attributes
+### of Asset, and specifies how buying and selling is executed for objects
+### of the subclass.
 		
 class MutualFund(Asset):
     def __init__(self, symbol):
@@ -100,7 +127,7 @@ class MutualFund(Asset):
 		if portfolio.mut_funds[self.symbol]>=num_shares:
 				sell_price = random.uniform(0.9,1.2)
 				portfolio.cash += sell_price*num_shares
-				portfolio.trans_history.append("Sold %d shares of %s for $%.2f ($%.2f per share)." %(num_shares, self.symbol, sell_price*num_shares, sell_price))
+				portfolio.trans_history.append("Sold %d shares of %s for $%.2f." %(num_shares, self.symbol, sell_price*num_shares))
 				if self.symbol in portfolio.mut_funds.keys():
 					portfolio.mut_funds[self.symbol]-= num_shares
 					if portfolio.mut_funds[self.symbol]==0:
