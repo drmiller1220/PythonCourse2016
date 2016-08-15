@@ -29,7 +29,7 @@ soup.find_all('a')
 
 
 # Get the attributes
-my_a_tag=soup.find_all('a')[2]
+my_a_tag=soup.find_all('a')
 re.sub(r'<[^>]+>', '', str(my_a_tag)) #remove tags
 my_a_tag.attrs #Gives a dictionary with the attributes
 my_a_tag.attrs.keys()
@@ -39,7 +39,7 @@ my_a_tag['alt']
 soup.find_all('a',{'alt':"Washington University in St. Louis" })
 
 # There may be tags within tags
-mysection=soup.find_all('div')[0]
+mysection=soup.find_all('div')[1]
 mysection.a #Gives the 'a' tag within the 'div' tag
 mysection.find_all('a') #Gives the list of all 'a' tags within the 'div' tag
 mysection.get_text()
@@ -50,7 +50,7 @@ mysection.get_text()
 mysection.contents #Gives a list of all children
 mysection.children #Creates an iterator for children
 
-for child in mysection.children:
+for child in mysection.grandchildren:
 	print child
 
 mysection.descendants #Creates an iterator for children, grandchildren, etc.
