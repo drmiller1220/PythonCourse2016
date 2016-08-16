@@ -48,6 +48,10 @@ for i in range(0, len(faculty)):
 				my_writer.writerow({"Name":member_name, "Web page":member_page})
 				
 ###################################33
+
+with open('specializations.csv', 'w') as f:
+				my_writer = csv.DictWriter(f, fieldnames=("Name", "Specialization", "Title", "Email", "Web page"))
+				my_writer.writeheader()
 				
 faculty_1=soup.find_all('div',{'class':"views-row"})	
 for i in range(0, len(faculty_1)):
@@ -57,33 +61,33 @@ for i in range(0, len(faculty_1)):
 		member_name = member_name.replace('\n', '')
 		member_page = "http://polisci.wustl.edu" + member['href']
 		member_title = faculty.get_text()
-		#member_title = member_title.split("\n")
+		member_title = member_title.split("\n")
 		member_title = member_title[2]
 		member_title = member_title.replace(' ', '')
 		#member_page = member_page.replace('\n', ' ')
 		member_page_proper = urllib2.urlopen(member_page)
 		member_page_proper = BeautifulSoup(member_page_proper.read())
-		member_specialization = member_page_proper.find_all('a',{'property':"rdfs:label skos:prefLabel"})	
-		for i in member_specialization:
-			if i.get_text() != 'Faculty':
+		member_specialization_spots = member_page_proper.find_all('a',{'property':"rdfs:label skos:prefLabel"})	
+		for i in member_specialization_spots:
+			fields = ["Political Theory", "American", "Methodology", "Comparative", "International Political Economy", "Formal Theory"]
+			if i.get_text() in fields:
 				member_specialization = i.get_text()
-			else:
-				member_specialization.remove(i)
-		#page_email = member_page_proper.find_all('a',{'href':"mailto:"})
-		#if "mailto:" in member_page_proper['href'] and "polisci@wustl.edu" not in member_page_proper['href']:
-		#	page_email = page_email.get_text()
-		#page_website=member_page_proper.find_all('div',{'class':"field field-name-field-person-website field-type-link-field field-label-inline clearfix"})
+		page_email_spot = member_page_proper.find("div",{'class':"field field-name-field-person-email field-type-email field-label-inline clearfix"})
+		page_email_spot_2 = page_email_spot.find_all("div", {"class" : "field-item even"})
+		for i in page_email_spot_2:
+			if i.find("a",href=True):
+				page_email = i.get_text()
+		page_website_spot=member_page_proper.find('div',{'class':"field field-name-field-person-website field-type-link-field field-label-inline clearfix"})
+		if page_website_spot:
+			page_website = page_website_spot.find("a",href=True)['href']
+		else:
+			page_website = member_page
 		#page_website=page_website.find('a')
 		#if page_website != '':
 		#	page_website = page_website
 		#else:
 		#	page_website = member_page 
-		if i ==0:
-			with open('specializations.csv', 'w') as f:
-				my_writer = csv.DictWriter(f, fieldnames=("Name", "Specialization", "Title", "Email", "Web page"))
-				my_writer.writeheader()
-				my_writer.writerow({"Name":member_name, "Specialization":member_specialization, "Web page":member_page})
-		else:
-			with open('specializations.csv', 'a+') as f:
-				my_writer = csv.DictWriter(f, fieldnames=("Name", "Specialization", "Title", "Email", "Web page"))
-				my_writer.writerow({"Name":member_name, "Specialization":member_specialization, "Web page":member_page})
+		
+		with open('specializations.csv', 'a') as f:
+			my_writer = csv.DictWriter(f, fieldnames=("Name", "Specialization", "Title", "Email", "Web page"))
+			my_writer.writerow({"Name":member_name, "Specialization":member_specialization, "Title":member_title, "Email": page_email, "Web page":page_website})
