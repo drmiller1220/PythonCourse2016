@@ -134,40 +134,7 @@ for i in petition_addresses:
 		pass
 
 
-
-for i in petition_addresses:
-	petition_page=urllib2.urlopen(i)
-	petition_soup=BeautifulSoup(petition_page.read())
-	petition_page_title = 'NA'
-	petition_page_date = 'NA'
-	petition_page_signatures = 'NA'
-	petition_page_tags = []
-	h1 = petition_soup.find('h1')
-	petition_title = h1.get_text()
-	petition_title = petition_title.replace('\n','')
-	h4 = petition_soup.find('h4', {'class' : 'petition-attribution'})
-	petition_attribution = h4.get_text()
-	petition_date = petition_attribution.split("on ")[1]
-	petition_month = petition_date.split(" ")[0]
-	petition_day = petition_date.split(" ")[1]
-	petition_day = petition_day.strip(',')
-	petition_year = petition_date.split(" ")[2]
-	span = petition_soup.find('span', {'class' : 'signatures-number'})
-	signatures = span.get_text()
-	signatures = signatures.replace(',','')
-	div = petition_soup.find('div', {'class' : 'field field-name-field-petition-issues field-type-taxonomy-term-reference field-label-hidden tags'})
-	h6 = div.find_all('h6')
-	for i in h6:
-		petition_page_tags.append(i.get_text())
-	if len(petition_page_tags)>1:
-		petition_page_tags = ", ".join(petition_page_tags)
-	else:
-		petition_page_tags = str(petition_page_tags[0])
-	with open('whpetitions.csv', 'ab') as f:
-		my_writer = csv.DictWriter(f, fieldnames=("Title", "Date", "Number of Signatures", "Issue Tags"))
-		my_writer.writerow({"Title": petition_title, "Date": petition_date, "Number of Signatures": signatures, "Issue Tags": petition_page_tags})
-
-
+### Resetting system encoding to ASCII
 		
 import sys
 reload(sys)  # Reload does the trick!
