@@ -30,8 +30,26 @@ embassies = [[38.917228,-77.0522365],
 
 
 # TODO: write code to answer the following questions: 
-# which embassy is closest to the White House in meters? how far? 
+# which embassy is closest to the White House in meters? how far?
+location_1= gmaps.geocode(whitehouse)
+latlng_loc1=location[0]['geometry']['location']
+lat, lng=latlng_loc1.values()
+destination = gmaps.reverse_geocode(latlng_loc1)
+distances = []
+for i in embassies:
+	embassy = gmaps.reverse_geocode(i)
+	latlng_embassy=embassy[0]['geometry']['location']
+	lat, lng=latlng_embassy.values()
+	distance = gmaps.distance_matrix(latlng_loc1, latlng_embassy)
+	distance_km = distance['rows'][0]['elements'][0]['distance']['value']
+	distance_m = distance_km/1000
+	distances.append([i,distance_m])
+	
 # what is its address? You will get errors - debug
+
+destination = gmaps.reverse_geocode(distances[1][0])
+print destination[0]['formatted_address']
+
 # if I wanted to hold a morning meeting there, which cafe would you suggest?
 # if I wanted to hold an evening meeting there, which bar would you suggest? 
 

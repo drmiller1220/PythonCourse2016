@@ -25,3 +25,7 @@ print [[x.pollster, x.method] for x in chart.polls()]
 
 # TODO: compare favorability of Trump and Clinton from a recent poll
 # use info at http://elections.huffingtonpost.com/pollster/api/
+
+chart = pollster.charts(topic='favorable-ratings')
+print chart ### See list of favorable ratings which exist
+chart[] ### Select index of Clinton and Trump 
