@@ -47,17 +47,21 @@ def gcf(num1, num2):
 #Exercise 2
 #Write a function that returns prime numbers less than 121
 
+list=[]
+
 def prime_list(num):
-	list = []
-	def is_prime(x):
-		for i in range(1,x):
-			if x % i ==0:
-				pass
-			else:
-				list.append(x)
-	for i in range(1,num):
-		is_prime(i)
-	return list
+	in_list = []
+	for j in range(num-1,1,-1):
+		if num%j==0:
+			pass
+		else:
+			in_list.append(j)
+	if range(num-1,1,-1) == in_list:
+			list.append(num)
+	if num>2:
+		prime_list(num-1)
+	else:
+		print list
 
 #Exercise 3
 #Write a function that gives a solution to Tower of Hanoi game
