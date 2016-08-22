@@ -13,17 +13,63 @@ def makeLink(G, node1, node2):
 # Ring Network
 ring = {} # empty graph 
 
-n = 5 # number of nodes 
+n = 256 # number of nodes 
 
 # Add in edges
 for i in range(n):
-  ring = makeLink(ring, i, (i+1)%n)
+	if i%16==0:
+		makeLink(ring, i, (i+1))
+		if i == 240:
+			makeLink(ring, i, (i-16))
+		elif i == 0:
+			makeLink(ring, i, (i+16))
+		else:
+			makeLink(ring, i, (i+16))
+			makeLink(ring, i, (i-16))
+	elif i%16==15:
+		makeLink(ring, i, (i-1))
+		if i == 255:
+			makeLink(ring, i, (i-16))
+		elif i == 15:
+			makeLink(ring, i, (i+16))
+		else:
+			makeLink(ring, i, (i+16))
+			makeLink(ring, i, (i-16))	
+	elif i<15:
+		makeLink(ring, i, (i+1))
+		makeLink(ring, i, (i-1))
+		makeLink(ring, i, (i+16))
+	elif i>239:
+		makeLink(ring, i, (i+1))
+		makeLink(ring, i, (i-1))
+		makeLink(ring, i, (i-16))
+	else:
+		makeLink(ring, i, (i+1))
+		makeLink(ring, i, (i-1))
+		makeLink(ring, i, (i-16))
+		makeLink(ring, i, (i+16))
+		
+ring = makeLink(ring, i, (i+1)%n)
 
 # How many nodes?
 print len(ring)
 
 # How many edges?
 print sum([len(ring[node]) for node in ring.keys()])/2 
+
+def countEdges(graph):
+	edges = []
+	for i in range(1,len(graph)):
+		if i==0 or i ==15 or i==240 or i ==256:
+			pass
+		elif i<16 or i>240 or i%16==0 or i%16==15:
+			outer_edges = len(graph[node])
+			edges.append(outer_edges)
+		else:
+			inner_edges = len(graph[node])/2
+			edges.append(inner_edges)
+	edges = reduce( (lambda x,y:x+y), edges)
+	return edges
 
 
 # Grid Network
@@ -61,7 +107,9 @@ makeLink(movies, ah, ms) # Devil Wears Prada
 makeLink(movies, ah, jr) # Valentine's Day
 
 # How many nodes in movies?
+len(movies)
 # How many edges in movies?
+print sum([len(movies[node]) for node in movies.keys()])/2 
 
 def tour(graph, nodes):
   for i in range(len(nodes)):
@@ -78,11 +126,61 @@ def tour(graph, nodes):
           pass 
         else:
           print "Can't get there from here!"
-          break 
+          break
+		  
 
 # TODO: find an Eulerian tour of the movie network and check it 
 movie_tour = [] 
 tour(movies, movie_tour)
+
+def tour(graph, nodes):
+	for i in range(len(nodes)):
+		node = nodes[i] 
+		if node in graph.keys():
+			print node
+			nodes_used =[]
+		else:
+			print "Node not found!"
+			break 
+		if i+1 < len(nodes):
+			next_node = nodes[i+1]
+			if next_node in graph.keys():
+				if next_node in graph[node].keys():
+					nodes_used.append(next_node)
+					print next_node
+					break
+				else:
+					available_nodes = movies[i].keys()
+					downTree(available_nodes,next_node,nodes_used)
+					
+					def downTree(list_keys,target_node,used_nodes):
+						for j in list_keys:
+							if list_keys[j] not in used_nodes:
+								if target_node == list_keys[j]:
+									used_node.append(j)
+									print list_keys[j]
+									print target_node
+									break
+								else:
+									downTree[j+1]
+							else:
+								print "Can't get there from here!"
+								break 
+
+### Define "node" as node at which to start tour								
+paths = []
+
+def eulerian_tour(graph, node):
+	for i in graph[node]:
+		findAllPaths(graph, node, i)
+	for i in paths:
+		if len(i)==7:
+			return i
+			break
+		else:
+			print "No Eulerian path starting from this actor exists"
+			break
+								
 
 
 def findPath(graph, start, end, path=[]):
@@ -103,10 +201,35 @@ print findPath(movies, jr, ms)
 # TODO: implement findShortestPath()
 # print findShortestPath(movies, ms, ss)
 
+paths = []
+path_length = []
+length_paths = []
+
+def findShortestPath(graph, start, end):
+	findAllPaths(graph, start, end)
+	for i in paths:
+		path_length.append(len(i))
+	length_paths = zip(paths, path_length)
+	return min(length_paths, key = lambda t: t[1])
+	
+
 # TODO: implement findAllPaths() to find all paths between two nodes
 # allPaths = findAllPaths(movies, jr, ms)
 # for path in allPaths:
-#   print path
+#  print path
+paths = []
+
+def findAllPaths(graph, start, end, path=[]):
+	path = path + [start]
+	if start == end:
+		paths.append(path)
+	if not graph.has_key(start):
+		return None
+	for node in graph[start]:
+		if node not in path:
+			newpath = findAllPaths(graph, node, end, path)
+
+
 
 # Copyright (c) 2014 Matt Dickenson
 # 
