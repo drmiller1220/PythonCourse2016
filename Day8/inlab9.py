@@ -58,8 +58,22 @@ data[data['yr']==2010]
 data[data['ev']>40]
 
 # TODO: what's the minimum population in 1990? 
+
+data_1990 = data[data['yr']==1990]
+min_1990 = min(data_1990['pop'])
+
 # in which state was that? 
+
+data_1990['min1990'] = min_1990
+
+for i in data_1990[1,i]:
+	if data_1990['pop'] == data_1990['min1990']:
+		data_1990['min'] = 1 
+
 # how many states had over 35 electoral votes in 2010? 
+
+data_2010 = data[data['yr']==2010]
+data_2010['more_than_35evs'] = data_2010['ev']>35
 
 # we can also apply functions to columns
 format = lambda x: '%.2f' % x 
@@ -75,7 +89,14 @@ data2.tail()
 data.describe()
 data.std()
 
-# how much did total population change between 1990 and 2010? 
+# how much did total population change between 1990 and 2010?
+
+total_pop_1990= 0
+
+for i in data_1990['st']:
+	total_pop_1990 + [i]['pop'].values
+	
+
 # TODO: how many people did the average congressperson represent in 1990?
 
 # we could also represent a single variable as a series with hierarchical indexing
