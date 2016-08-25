@@ -1,5 +1,7 @@
 import random
 import timeit
+from matplotlib import pyplot as plt
+import numpy
 
 list = range(1,100)
 random.shuffle(list)
@@ -157,7 +159,7 @@ plt.plot(sample_size_bs,run_times_bs,label="Bubble Sort")
 plt.plot(sample_size_ms,run_times_ms,label="Merge Sort")
 
 plt.title("Comparative Run Times of Sorting Algorithms")
-plt.ylabel("Run Time")
+plt.ylabel("Run Time in Microseconds")
 plt.xlabel("Size of Set to Sort")
 
 plt.legend(loc=2)
