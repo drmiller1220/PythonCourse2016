@@ -97,6 +97,24 @@ session.add_all([dept1, dept2, dept3, dept4])
 
 # TODO: Create towns, nested in departments
 
+a = Town("Town 1", 100000)
+dept1.towns.append(a)
+
+b = Town("Town 2", 500000)
+dept2.towns.append(b)
+
+c = Town("Town 3", 200000)
+dept3.towns.append(c)
+
+d = Town("Town 4", 450000)
+dept3.towns.append(d)
+
+e = Town("Town 5", 700000)
+dept3.towns.append(e)
+
+f = Town("Town 6", 210000)
+dept3.towns.append(f)
+
 session.add_all([a,b,c,d,e,f])
 
 ae = Distance(50)
@@ -141,12 +159,32 @@ session.commit()
 
 # Some example querying 
 for town in session.query(Town).order_by(Town.id):
-  print town.name, town.population
+  print town.name, town.population, town.id
 
 # TODO: 
 # 1. Display, by department, the cities having more than 100000 inhabitants.
+
+for town in session.query(Town).filter(Town.population > 100000).order_by(Town.population):
+	print town.dept_id, town.name, town.population, town.id
+
 # 2. Display the list of all the one-way connections between two cities for which the population of one of the 2 cities is lower than 80000 inhabitants. 
+
+for town, distance in session.query(Town, Distance).filter(Town.population < 200000).filter(or_(Distance.towndepart == Town.name, Distance.townarrive == Town.name)):
+	print distance
+
 # 3. Display the number of inhabitants per department (bonus: do it per region as well). 
+
+department_pops = []
+
+for department in session.query(Department):
+	department_pop = []
+	for town in session.query(Town).filter(Town.dept_id==department.id):
+		department_pop.append(town.population)
+	department_pop = sum(department_pop)
+	dept_info = [department.id, department_pop]
+	department_pops.append(dept_info)
+	
+
 # hint: use func.sum
 
 # Copyright (c) 2014 Matt Dickenson

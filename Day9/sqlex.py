@@ -11,7 +11,7 @@ from sqlalchemy.orm import relationship, backref, sessionmaker
 print sqlalchemy.__version__
 
 #Connect to the local database, can use :memory: to just try it out in memory by leaving URL empty
-engine = sqlalchemy.create_engine('sqlite:////home/david/PythonCourse2016/Day9/players.db', echo=True)
+engine = sqlalchemy.create_engine('sqlite:///C:\\Users\\drmiller1220\\Documents\\GitHub\\PythonCourse2016\\players.db', echo=True)
 
 Base = declarative_base() 
 

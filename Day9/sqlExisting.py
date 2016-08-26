@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 
 Base = automap_base()
 
-engine = create_engine('sqlite:////home/david/PythonCourse2016/Day9/players.db')
+engine = create_engine('sqlite:///C:\\Users\\drmiller1220\\Documents\\GitHub\\PythonCourse2016\\players.db')
 
 # reflect the tables
 Base.prepare(engine, reflect=True)
